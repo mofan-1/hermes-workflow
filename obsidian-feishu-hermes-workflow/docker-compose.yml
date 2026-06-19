@@ -1,0 +1,23 @@
+# ============================================
+# Hermes Workflow - Docker Compose
+# 一键启动：docker-compose up
+# ============================================
+
+version: "3.8"
+
+services:
+  hermes-workflow:
+    build: .
+    container_name: hermes-workflow
+    ports:
+      - "9000:9000"
+    volumes:
+      # Obsidian 知识库数据持久化（存到本地）
+      - ./data/inbox-vault:/data/inbox-vault
+      - ./data/deep-vault:/data/deep-vault
+      # 配置文件
+      - ./.env:/app/.env
+    environment:
+      - INBOX_VAULT_PATH=/data/inbox-vault
+      - DEEP_VAULT_PATH=/data/deep-vault
+    restart: unless-stopped
